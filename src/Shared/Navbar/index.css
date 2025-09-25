@@ -1,0 +1,4 @@
+.custom-ease {
+  transition-timing-function: cubic-bezier(.15, .85, .31, 1);
+  
+}

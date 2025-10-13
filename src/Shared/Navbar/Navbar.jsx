@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button"
 import { NavLink } from 'react-router-dom';
 
@@ -6,16 +6,31 @@ import '../Navbar/index.css'
 
 const Navbar = () => {
 
+    const [isScrolled, setIsScrolled] = useState(false)
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 100)
+        }
+
+        window.addEventListener('scroll', handleScroll)
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+
+    }, [])
+
     const navlinks1 = <>
-        <NavLink className='cursor-pointer text-base font-semibold tracking-wider uppercase hover:text-[#07A698] antialiased transition-all duration-300 ease-in-out' to="/">Home</NavLink>
+        <NavLink className='cursor-pointer text-lg font-semibold tracking-wider uppercase hover:text-[#07A698] antialiased transition-all duration-300 ease-in-out' to="/">Home</NavLink>
         <NavLink className='cursor-pointer text-base font-semibold tracking-wider uppercase hover:text-[#07A698] antialiased transition-all duration-300 ease-in-out px-8' to="/">All Classes</NavLink>
         <NavLink className='cursor-pointer text-base font-semibold tracking-wider uppercase hover:text-[#07A698] antialiased transition-all duration-300 ease-in-out' to="/">Teach on EdCare</NavLink>
 
     </>
 
     return (
-        <div className='w-4/5 mx-auto '>
-            <div className="navbar  shadow-sm bg-[#162726] text-white">
+        <div className={`w-full fixed z-20 py-5 ${isScrolled ? 'bg-[#162726] shadow-sm duration-300' : ''}`}>
+            <div className="navbar w-4/5  mx-auto text-white">
                 <div className="navbar-start">
                     <div className="dropdown">
                         <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -43,8 +58,18 @@ const Navbar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <NavLink  className="text-base font-semibold cursor-pointer bg-white text-black px-8 py-3 rounded-3xl uppercase  tracking-wider  hover:text-[#162726] custom-ease  ">Sign in</NavLink>
-                    
+                    {/* <NavLink  className="text-base font-semibold cursor-pointer z-50 text-white px-16 py-3 rounded-sm uppercase tracking-wider custom-ease bg-[#07a698] transition-all delay-300 ease-in-out relative">Sign In</NavLink> */}
+                    <NavLink
+                        className="relative text-base font-semibold cursor-pointer z-20 text-white 
+  px-16 py-3 rounded-sm uppercase tracking-wider bg-[#07a698] 
+  overflow-hidden transition-all duration-500 ease-[cubic-bezier(.15,.85,.31,1)]
+  before:absolute before:top-0 before:left-0 before:h-full before:w-0 before:bg-[#059983]
+  before:transition-all before:duration-500 before:ease-[cubic-bezier(.15,.85,.31,1)]
+  hover:before:w-full hover:text-white"
+                    >
+                        <span className="relative z-10">Sign In</span>
+                    </NavLink>
+
 
                 </div>
             </div>

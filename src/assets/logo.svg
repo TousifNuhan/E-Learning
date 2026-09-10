@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 320" width="100%" height="100%">
+  <!-- Color definition: #07A698 -->
+  <g fill="#07A698">
+    <!-- Graduation Cap Top -->
+    <path d="M 150 10 L 210 40 L 150 70 L 90 40 Z" />
+    
+    <!-- Tassel -->
+    <path d="M 195 42 L 195 110 M 192 110 A 3 3 0 0 0 198 110 Z" stroke="#07A698" stroke-width="3" fill="none" />
+    <circle cx="195" cy="112" r="4" />
+
+    <!-- Pen / Column Core -->
+    <path d="M 120 75 H 180 V 90 H 120 Z" />
+    <path d="M 120 95 H 180 V 110 H 120 Z" />
+    <path d="M 120 115 L 120 220 L 150 255 L 180 220 L 180 115 Z" />
+    
+    <!-- Pen Tip -->
+    <polygon points="142,260 158,260 150,275" />
+
+    <!-- Outer Shield Outline -->
+    <path d="M 30 120 L 100 100 L 100 135 L 55 148 C 55 220 105 270 150 295 C 195 270 245 220 245 148 L 200 135 L 200 100 L 270 120 C 270 230 200 295 150 315 C 100 295 30 230 30 120 Z" />
+  </g>
+</svg>

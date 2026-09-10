@@ -1,4 +1,59 @@
 .custom-ease {
   transition-timing-function: cubic-bezier(.15, .85, .31, 1);
-  
+}
+
+/* Ensure the arrows container spans across the slider and stays visible */
+.awssld__controls {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Force both left and right control buttons to be visible */
+.awssld__controls button {
+  opacity: 1 !important;
+  background: transparent !important;
+}
+
+/* --- DESKTOP STYLES (Default Layout) --- */
+.awssld__controls__arrow-left::before,
+.awssld__controls__arrow-left::after,
+.awssld__controls__arrow-right::before,
+.awssld__controls__arrow-right::after {
+  background-color: #07A698 !important; /* Signature teal */
+  width: 5px !important;                 /* Bold thickness for desktop */
+  height: 35px !important;               /* Tall lines for desktop */
+}
+
+.awssld__controls__arrow-left {
+  left: 10px !important;                 /* Breathes beautifully on large displays */
+}
+.awssld__controls__arrow-right {
+  right: 10px !important;
+}
+
+/* --- MOBILE RESPONSIVE LAYER --- */
+@media (max-width: 768px) {
+  /* Give the arrow wrappers a bit more container breathing room so they don't clip */
+  .awssld__controls__arrow-left,
+  .awssld__controls__arrow-right {
+    width: 5px !important;
+    height: 15px !important;
+  }
+
+  .awssld__controls__arrow-left::before,
+  .awssld__controls__arrow-left::after,
+  .awssld__controls__arrow-right::before,
+  .awssld__controls__arrow-right::after {
+    width: 3px !important;              /* Crisp line thickness */
+    height: 16px !important;             /* Scaled down height ensures it fits inside mobile bounding boxes */
+    background-color: #07A698 !important; 
+  }
+
+  /* Reposition them safely inside the screen edges */
+  .awssld__controls__arrow-left {
+    left: 15px !important;
+  }
+  .awssld__controls__arrow-right {
+    right: 15px !important;
+  }
 }

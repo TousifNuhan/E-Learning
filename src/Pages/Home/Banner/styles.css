@@ -1,0 +1,84 @@
+/* Style the actual arrow shapes (the lines inside the buttons) */
+.awssld__controls__arrow-left::before,
+.awssld__controls__arrow-left::after,
+.awssld__controls__arrow-right::before,
+.awssld__controls__arrow-right::after {
+  background-color: #F3F4F6 !important; /* <--- THIS IS THE COLOR OF YOUR ARROWS */
+  width: 5px !important;
+  height: 35px !important;
+}
+
+/* 1. Target the absolute outer container of the dots */
+.awssld__bullets {
+  position: absolute !important;
+  bottom: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 30 !important;
+  background: transparent !important;
+}
+
+/* 2. Optional: Style the dots themselves so they stand out against dark/light backgrounds */
+.awssld__bullets button {
+  background: rgba(255, 255, 255, 0.4) !important;
+}
+
+.awssld__bullets .awssld__bullets--active {
+  background: #7f8d97 !important;
+}
+
+/* --- MOBILE RESPONSIVE LAYER --- */
+@media (max-width: 768px) {
+
+  /* Give the arrow buttons a visible circular backdrop so they stand out from the image/text */
+  .awssld__controls__arrow-left,
+  .awssld__controls__arrow-right {
+    width: 32px !important;
+    height: 32px !important;
+    background: rgba(0, 0, 0, 0.35) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 25 !important;
+  }
+
+  /* Pull the arrows toward the top of the slide, away from the centered text block */
+  .awssld__controls__arrow-left {
+    top: 15% !important;
+    left: 10px !important;
+  }
+
+  .awssld__controls__arrow-right {
+    top: 15% !important;
+    right: 10px !important;
+  }
+
+  /* Thicken and shorten the arrow lines so they're visible against the circle backdrop */
+  .awssld__controls__arrow-left::before,
+  .awssld__controls__arrow-left::after,
+  .awssld__controls__arrow-right::before,
+  .awssld__controls__arrow-right::after {
+    width: 2.5px !important;
+    height: 12px !important;
+    background-color: #ffffff !important;
+  }
+
+  /* Scale down the pagination dots container layout */
+  .awssld__bullets {
+    bottom: 12px !important;
+  }
+
+  /* Shrink the individual dots */
+  .awssld__bullets button {
+    width: 8px !important;
+    height: 8px !important;
+    margin: 0 4px !important;
+  }
+
+  /* Scale down the active dot if it expands */
+  .awssld__bullets .awssld__bullets--active {
+    width: 12px !important;
+    height: 12px !important;
+  }
+}

@@ -38,6 +38,7 @@ import Overview from "../Pages/Dashboard/Overview/Overview";
 import ForgotPassword from "../Pages/Login/ForgotPassword/ForgotPassword";
 import MyCertificates from "../Pages/Dashboard/Student/MyCertificates/MyCertificates";
 import ManagePayouts from "../Pages/Dashboard/Admin/ManagePayouts ";
+import PlatformFeeSettings from "../Pages/Dashboard/Admin/PlatformFeeSettings";
 
 export const router = createBrowserRouter([
   {
@@ -138,6 +139,10 @@ export const router = createBrowserRouter([
       {
         path: 'manage-newsletter',
         element: <PrivateRoute><AdminRoute><ManageNewsletter /></AdminRoute></PrivateRoute>
+      },
+      {
+        path: 'platform-fee',
+        element: <AdminRoute><PlatformFeeSettings /></AdminRoute>
       },
 
       // Teacher-only routes

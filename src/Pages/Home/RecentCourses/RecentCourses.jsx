@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import useClasses from '../../../hooks/useClasses';
+import { FaBangladeshiTakaSign } from 'react-icons/fa6';
 
 const RecentCourses = () => {
     const swiperRef = useRef(null);
@@ -165,11 +166,13 @@ const RecentCourses = () => {
                                         <div className="text-right">
                                             {(course.originalPrice || course.oldPrice) && (
                                                 <span className="text-[11px] text-slate-400 line-through block leading-none mb-0.5">
-                                                    ${formatPrice(course.originalPrice || course.oldPrice)}
+                                                    ৳{formatPrice(course.originalPrice || course.oldPrice)}
                                                 </span>
                                             )}
-                                            <span className="text-base md:text-lg font-bold text-slate-800">
-                                                ${formatPrice(course.price)}
+                                            <span className="text-base md:text-lg font-bold text-slate-800 flex items-center">
+                                                <FaBangladeshiTakaSign  className='text-base'/>
+
+                                                {formatPrice(course.price)}
                                             </span>
                                         </div>
                                     </div>

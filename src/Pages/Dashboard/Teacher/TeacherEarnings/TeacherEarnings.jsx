@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { 
-  TrendingUp, 
-  Percent, 
-  CreditCard, 
-  BookOpen, 
-  Clock, 
-  Download, 
+import {
+  TrendingUp,
+  Percent,
+  CreditCard,
+  BookOpen,
+  Clock,
+  Download,
   CheckCircle,
   RefreshCw,
   Smartphone
@@ -66,7 +66,8 @@ const TeacherEarnings = () => {
   const courses = (rawStats.courses || []).map((course) => {
     const price = Number(course.price || 0);
     const gross = Number(course.grossSales || 0);
-    const net = Number(course.netRevenue || (gross * 0.90));
+    // const net = Number(course.netRevenue || (gross * 0.90));
+    const net = Number(course.netRevenue ?? gross); // no more assumed flat 10%; trust backend's accurate per-payment calculation
     const enrolled = Number(course.salesCount || course.enrolled || 0);
 
     return {
@@ -81,18 +82,18 @@ const TeacherEarnings = () => {
 
   const payouts = rawStats.payoutHistory || rawStats.payouts || [];
 
-  const totalGross = rawStats.totalGrossSales !== undefined 
-    ? Number(rawStats.totalGrossSales) 
-    : rawStats.totalGross !== undefined 
-    ? Number(rawStats.totalGross)
-    : courses.reduce((sum, c) => sum + c.grossSales, 0);
+  const totalGross = rawStats.totalGrossSales !== undefined
+    ? Number(rawStats.totalGrossSales)
+    : rawStats.totalGross !== undefined
+      ? Number(rawStats.totalGross)
+      : courses.reduce((sum, c) => sum + c.grossSales, 0);
 
-  const platformFee = rawStats.platformFee !== undefined 
-    ? Number(rawStats.platformFee) 
-    : (totalGross * 0.10);
+  const platformFee = rawStats.platformFee !== undefined
+    ? Number(rawStats.platformFee)
+    : 0;
 
-  const totalPaidOut = rawStats.totalPaidOut !== undefined 
-    ? Number(rawStats.totalPaidOut) 
+  const totalPaidOut = rawStats.totalPaidOut !== undefined
+    ? Number(rawStats.totalPaidOut)
     : payouts.reduce((sum, p) => (p.status !== 'Failed' ? sum + Number(p.amount || 0) : sum), 0);
 
   const availableNetBalance = rawStats.availableNetBalance !== undefined
@@ -110,7 +111,7 @@ const TeacherEarnings = () => {
 
   const handlePayoutSuccess = () => {
     toast.success('Payout request submitted successfully!');
-    refetch(); 
+    refetch();
   };
 
   const handleSavePayoutMethod = async () => {
@@ -259,7 +260,10 @@ const TeacherEarnings = () => {
 
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-xs relative">
           <div className="flex justify-between items-center mb-4">
-            <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">Platform Fee (10%)</span>
+            {/* <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">Platform Fee (10%)</span> */}
+            <span className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+              Platform Fee {rawStats.currentPlatformFeePercentage !== undefined ? `(current: ${(rawStats.currentPlatformFeePercentage * 100).toFixed(1)}%)` : ''}
+            </span>
             <div className="p-3 bg-amber-50 rounded-full text-amber-600">
               <Percent className="w-5 h-5" />
             </div>
@@ -476,13 +480,12 @@ const TeacherEarnings = () => {
                       {payout.bkashNumber ? ` (${payout.bkashNumber})` : ''}
                     </td>
                     <td className="py-3 px-4">
-                      <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${
-                        payout.status === 'Pending'
-                          ? 'bg-amber-100 text-amber-700'
-                          : payout.status === 'Rejected'
+                      <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${payout.status === 'Pending'
+                        ? 'bg-amber-100 text-amber-700'
+                        : payout.status === 'Rejected'
                           ? 'bg-red-100 text-red-700'
                           : 'bg-emerald-100 text-emerald-700'
-                      }`}>
+                        }`}>
                         {payout.status || 'Completed'}
                       </span>
                     </td>

@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaBangladeshiTakaSign } from 'react-icons/fa6';
 import useClasses from '../../../hooks/useClasses';
 
 const BestSellerCourses = () => {
@@ -116,7 +117,6 @@ const BestSellerCourses = () => {
                         </p>
                     </div>
 
-                    {/* Category Selector */}
                     {categories.length > 0 && (
                         <div className="flex bg-white p-1.5 rounded-xl border border-gray-200/50 shadow-sm self-start md:self-auto overflow-x-auto max-w-full [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                             {categories.map((cat) => (
@@ -200,12 +200,14 @@ const BestSellerCourses = () => {
                                         </div>
                                         <div className="text-right">
                                             {heroCourse.originalPrice && (
-                                                <span className="text-[10px] md:text-xs text-gray-400 line-through block font-medium">
-                                                    ${formatPrice(heroCourse.originalPrice)}
+                                                <span className="text-[10px] md:text-xs text-gray-400 line-through font-medium flex items-center justify-end gap-0.5">
+                                                    <FaBangladeshiTakaSign className="text-[9px]" />
+                                                    <span>{formatPrice(heroCourse.originalPrice)}</span>
                                                 </span>
                                             )}
-                                            <span className="text-lg md:text-xl font-black text-emerald-600">
-                                                ${formatPrice(heroCourse.price)}
+                                            <span className="text-lg md:text-xl font-black text-emerald-600 flex items-center justify-end gap-0.5">
+                                                <FaBangladeshiTakaSign className="text-base" />
+                                                <span>{formatPrice(heroCourse.price)}</span>
                                             </span>
                                         </div>
                                     </div>
@@ -218,12 +220,10 @@ const BestSellerCourses = () => {
                             {standardCourses.length > 0 ? (
                                 standardCourses.map((course, idx) => (
                                     <React.Fragment key={course._id || course.id || idx}>
-                                        {/* FIXED: Removed sm: breakpoints and mapped purely to mobile-first and md: */}
                                         <div 
                                             onClick={() => handleCourseClick(course)}
                                             className="group bg-white rounded-2xl border border-gray-100 p-3.5 md:p-5 flex flex-col md:flex-row gap-4 md:gap-5 items-center shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer w-full"
                                         >
-                                            {/* FIXED: Simplified aspect ratio logic */}
                                             <div className="relative w-full md:w-44 aspect-[4/3] rounded-xl overflow-hidden flex-shrink-0 bg-gray-50">
                                                 <img 
                                                     src={course.image} 
@@ -272,12 +272,14 @@ const BestSellerCourses = () => {
 
                                                     <div className="flex items-center gap-1.5 md:gap-2">
                                                         {course.originalPrice && (
-                                                            <span className="text-[10px] md:text-xs text-gray-400 line-through font-medium">
-                                                                ${formatPrice(course.originalPrice)}
+                                                            <span className="text-[10px] md:text-xs text-gray-400 line-through font-medium flex items-center gap-0.5">
+                                                                <FaBangladeshiTakaSign className="text-[9px]" />
+                                                                <span>{formatPrice(course.originalPrice)}</span>
                                                             </span>
                                                         )}
-                                                        <span className="text-sm md:text-base font-extrabold text-emerald-600">
-                                                            ${formatPrice(course.price)}
+                                                        <span className="text-sm md:text-base font-extrabold text-emerald-600 flex items-center gap-0.5">
+                                                            <FaBangladeshiTakaSign className="text-xs" />
+                                                            <span>{formatPrice(course.price)}</span>
                                                         </span>
                                                     </div>
                                                 </div>

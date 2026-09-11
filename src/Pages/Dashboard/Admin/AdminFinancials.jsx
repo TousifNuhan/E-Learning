@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2';
-import { 
-  FiTrendingUp, 
-  FiCreditCard, 
-  FiCornerUpLeft, 
+import {
+  FiTrendingUp,
+  FiCreditCard,
+  FiCornerUpLeft,
   FiSearch,
   FiClock,
   FiCheckCircle
@@ -25,9 +25,7 @@ const AdminFinancials = () => {
       setLoading(true);
 
       const [statsRes, txRes] = await Promise.all([
-        axiosSecure.get('/admin/financials').catch(() => 
-          axiosSecure.get('/admin/financials/stats').catch(() => ({ data: {} }))
-        ),
+        axiosSecure.get('/admin/financials'),
         axiosSecure.get('/admin/transactions/all').catch(() => ({ data: {} }))
       ]);
 
@@ -37,58 +35,15 @@ const AdminFinancials = () => {
       const resData = statsRes?.data || {};
       const rawStats = resData?.stats || resData;
 
-      const calculatedGrossFromTx = txList.reduce((sum, item) => {
-        const status = (item?.status || 'completed').toLowerCase();
-        const val = Number(
-          item?.price ?? 
-          item?.amount ?? 
-          item?.pricePaid ?? 
-          item?.totalPrice ?? 
-          item?.paymentAmount ?? 
-          0
-        );
-        if (['completed', 'paid', 'refund_pending', 'refund pending'].includes(status)) {
-          return sum + (isNaN(val) ? 0 : val);
-        }
-        return sum;
-      }, 0);
-
-      const calculatedRefundedFromTx = txList.reduce((sum, item) => {
-        const status = (item?.status || '').toLowerCase();
-        const val = Number(
-          item?.price ?? 
-          item?.amount ?? 
-          item?.pricePaid ?? 
-          item?.totalPrice ?? 
-          item?.paymentAmount ?? 
-          0
-        );
-        if (status === 'refunded') {
-          return sum + (isNaN(val) ? 0 : val);
-        }
-        return sum;
-      }, 0);
-
-      const finalGross = txList.length > 0 ? calculatedGrossFromTx : Number(rawStats?.totalGrossSales ?? rawStats?.grossPlatformSales ?? 0);
-      const finalRefunded = txList.length > 0 ? calculatedRefundedFromTx : Number(rawStats?.totalRefunded ?? 0);
-      
-      const finalCommission = txList.length > 0 
-        ? (finalGross * 0.10) 
-        : Number(rawStats?.platformCommission ?? (finalGross * 0.10));
-      
-      const totalPaidOut = 
-        rawStats?.totalPaidOut ?? 
-        rawStats?.totalPaidOutToTeachers ?? 
-        resData?.totalPaidOutToTeachers ?? 
-        resData?.totalPaidOut ?? 
-        0;
-
+      // Trust the backend's numbers directly — it already sums each payment's own
+      // locked-in fee rate, so no recalculation from the transaction list is
+      // needed or correct here anymore.
       setStats({
-        totalGrossSales: finalGross,
-        totalRefunded: finalRefunded,
-        platformCommission: finalCommission,
-        totalPaidOut: Number(totalPaidOut),
-        pendingPayouts: Number(rawStats?.pendingPayouts ?? 0)
+        totalGrossSales: Number(rawStats?.totalGrossSales ?? rawStats?.grossPlatformSales ?? 0),
+        totalRefunded: Number(rawStats?.totalRefunded ?? 0),
+        platformCommission: Number(rawStats?.platformCommission ?? 0),
+        totalPaidOut: Number(rawStats?.totalPaidOut ?? rawStats?.totalPaidOutToTeachers ?? 0),
+        currentPlatformFeePercentage: Number(resData?.currentPlatformFeePercentage ?? 0.10)
       });
     } catch (err) {
       toast.error('Failed to load financial data');
@@ -127,6 +82,10 @@ const AdminFinancials = () => {
     if (!result.isConfirmed) return;
 
     try {
+      // paymentIntentId is a legacy field name from the old Stripe flow.
+      // SSLCommerz transactions only populate transactionId, which the backend
+      // route already matches against — kept for backward compatibility with
+      // any pre-migration Stripe records still in the DB.
       const res = await axiosSecure.post('/admin/payments/refund', {
         paymentIntentId: tx.stripePaymentIntentId || tx.paymentIntentId || tx.transactionId,
         transactionId: tx.transactionId || tx._id,
@@ -205,7 +164,9 @@ const AdminFinancials = () => {
 
         <div className="bg-white p-5 rounded-2xl border border-stone-200/80 shadow-xs flex items-center justify-between">
           <div>
-            <p className="text-xs font-bold text-[#07A698] uppercase tracking-wider">Commission (10%)</p>
+            <p className="text-xs font-bold text-[#07A698] uppercase tracking-wider">
+              Commission {stats?.currentPlatformFeePercentage !== undefined ? `(current: ${(stats.currentPlatformFeePercentage * 100).toFixed(1)}%)` : ''}
+            </p>
             <p className="text-2xl font-black text-[#07A698] mt-1 flex items-center gap-0.5">
               <FaBangladeshiTakaSign className="text-xl" />
               <span>{stats?.platformCommission !== undefined ? stats.platformCommission.toFixed(2) : '0.00'}</span>
@@ -336,7 +297,7 @@ const AdminFinancials = () => {
                       </td>
                       <td className="py-3.5 px-4 text-center whitespace-nowrap">
                         {statusLower === 'completed' || statusLower === 'paid' ? (
-                          <button 
+                          <button
                             onClick={() => handleIssueRefund(item)}
                             className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl text-xs font-bold border border-rose-200 transition-all cursor-pointer"
                           >

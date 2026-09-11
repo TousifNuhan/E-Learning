@@ -4,18 +4,18 @@ import useClasses from '../../../hooks/useClasses';
 
 const PopularCourse = () => {
     // 1. Default state set to 'All'
-    const [classes] = useClasses()
+    const [classes] = useClasses();
     const popularCourses = classes
         .filter(c => c.status === 'accepted')
         .sort((a, b) => b.rating !== a.rating ? b.rating - a.rating : b.totalEnrollment - a.totalEnrollment)
         .slice(0, 6);
 
-    // Helper function to format numbers as currency (e.g., 10 -> $10.00)
+    // Helper function to format numbers as currency (e.g., 10 -> ৳10.00)
     const formatPrice = (price) => {
         if (price === undefined || price === null || price === '') return '';
         const num = parseFloat(price);
-        if (isNaN(num)) return price; // If it's already a formatted string (e.g., "$10.00"), return as-is
-        return `$${num.toFixed(2)}`;
+        if (isNaN(num)) return price; // If it's already a formatted string, return as-is
+        return `৳${num.toFixed(2)}`;
     };
 
     return (
@@ -47,7 +47,7 @@ const PopularCourse = () => {
                     {/* Course Grid Matrix */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 lg:gap-8 pt-2 md:pt-5">
                         {popularCourses.map((course) => (
-                            <Link to={`/courseDetails/${course._id}`} key={course.id}>
+                            <Link to={`/courseDetails/${course._id}`} key={course.id || course._id}>
                                 <div className="bg-white cursor-pointer rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition-transform duration-500 hover:-translate-y-2 flex flex-col group h-full">
                                     
                                     {/* Thumbnail */}

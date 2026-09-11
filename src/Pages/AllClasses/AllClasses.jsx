@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { MdPeople, MdArrowForward, MdSearch, MdClose, MdFilterList } from "react-icons/md";
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import useClasses from '../../hooks/useClasses';
 import useAuth from '../../hooks/useAuth';
@@ -137,10 +138,15 @@ const AllClasses = () => {
                                                 alt={course.title}
                                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                                             />
-                                            <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md border border-stone-100 px-4 py-1.5 rounded-full shadow-sm">
-                                                <span className="text-sm font-bold text-stone-900">
-                                                    {priceVal === 0 ? "FREE" : `$${priceVal.toFixed(2)}`}
-                                                </span>
+                                            <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md border border-stone-100 px-4 py-1.5 rounded-full shadow-sm flex items-center gap-0.5">
+                                                {priceVal === 0 ? (
+                                                    <span className="text-sm font-bold text-stone-900">FREE</span>
+                                                ) : (
+                                                    <span className="text-sm font-bold text-stone-900 flex items-center gap-0.5">
+                                                        <FaBangladeshiTakaSign className="text-xs" />
+                                                        <span>{priceVal.toFixed(2)}</span>
+                                                    </span>
+                                                )}
                                             </div>
 
                                             {isEnrolled && (

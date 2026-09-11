@@ -25,7 +25,8 @@ const PaymentHistory = () => {
   const [selectedPayment, setSelectedPayment] = useState(null);
 
   const [refundModalPayment, setRefundModalPayment] = useState(null);
-  const [refundReason, setRefundReason] = useState('Technical Issue');
+  const [
+    refundReason, setRefundReason] = useState('Technical Issue');
   const [refundDetails, setRefundDetails] = useState('');
   const [submittingRefund, setSubmittingRefund] = useState(false);
 

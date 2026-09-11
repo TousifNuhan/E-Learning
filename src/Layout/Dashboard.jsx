@@ -17,7 +17,8 @@ import {
   FiCreditCard,
   FiCornerUpLeft,
   FiMail,
-  FiAward
+  FiAward,
+  FiPercent
 } from 'react-icons/fi';
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
 
@@ -199,6 +200,10 @@ const Dashboard = () => {
                 <NavLink to="/dashboard/admin-financials" onClick={closeSidebar} className={navLinkStyle}>
                   <FaBangladeshiTakaSign className="w-5 h-5 shrink-0" />
                   <span>Financials & Payments</span>
+                </NavLink>
+                <NavLink to="/dashboard/platform-fee" onClick={closeSidebar} className={navLinkStyle}>
+                  <FiPercent className="w-5 h-5 shrink-0" />
+                  <span>Platform Fee</span>
                 </NavLink>
               </>
             )}

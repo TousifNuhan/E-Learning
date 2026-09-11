@@ -17,7 +17,7 @@
 //     const axiosSecure = useAxiosSecure();
 //     const { user } = useAuth();
 //     const [cart] = useCart();
-    
+
 //     const [enrolledIds, setEnrolledIds] = useState([]);
 //     const [loadingEnrollments, setLoadingEnrollments] = useState(true);
 
@@ -162,6 +162,7 @@ import useCart from '../../../hooks/useCart';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAuth from '../../../hooks/useAuth';
 import toast from 'react-hot-toast';
+import { FaBangladeshiTakaSign } from 'react-icons/fa6';
 
 const Payment = () => {
     const location = useLocation();
@@ -355,7 +356,8 @@ const Payment = () => {
                     ) : (
                         <>
                             <FiLock className="text-sm" />
-                            <span>Pay ৳{totalAmount.toFixed(2)} via SSLCommerz</span>
+                            <span className='flex items-center'>Pay <span><FaBangladeshiTakaSign className='ml-1'/>
+                            </span> {totalAmount.toFixed(2)} via SSLCommerz</span>
                         </>
                     )}
                 </button>

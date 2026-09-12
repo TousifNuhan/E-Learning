@@ -52,15 +52,16 @@ const PartnersSection = () => {
           </h2>
         </div>
 
-        <div className="relative py-4 mb-8 md:mb-16">
+        <div className="relative py-4 mb-8 md:mb-16 overflow-hidden [&_.rfm-marquee-container]:!overflow-hidden [&_.rfm-marquee]:!overflow-hidden">
           <Marquee
             direction="left"
             speed={40}
             gradient={true}
             gradientColor="#f8fafc"
             pauseOnHover={true}
+            className="overflow-hidden !overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
-            <div className="flex items-center gap-4 md:gap-6 pr-4 md:pr-6">
+            <div className="flex items-center gap-4 md:gap-6 pr-4 md:pr-6 py-2">
               {partners.map((partner, index) => (
                 <div
                   key={index}

@@ -121,9 +121,16 @@ const ManageRefunds = () => {
                                         </td>
                                         <td className="p-4 whitespace-nowrap">
                                             {item.status === 'approved' ? (
-                                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-50 text-emerald-700 font-bold text-[11px] rounded-full border border-emerald-200">
-                                                    <FiCheckCircle className="shrink-0" /> Approved
-                                                </span>
+                                                <div className="space-y-1">
+                                                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-50 text-emerald-700 font-bold text-[11px] rounded-full border border-emerald-200">
+                                                        <FiCheckCircle className="shrink-0" /> Approved
+                                                    </span>
+                                                    {item.sslcommerzRefundSucceeded === false && (
+                                                        <span className="flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-2 py-0.5 w-fit">
+                                                            <FiClock className="shrink-0" /> Needs manual refund
+                                                        </span>
+                                                    )}
+                                                </div>
                                             ) : item.status === 'rejected' ? (
                                                 <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-rose-50 text-rose-700 font-bold text-[11px] rounded-full border border-rose-200">
                                                     <FiXCircle className="shrink-0" /> Rejected

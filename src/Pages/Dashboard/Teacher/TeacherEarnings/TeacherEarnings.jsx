@@ -50,7 +50,9 @@ const TeacherEarnings = () => {
   });
 
   const hasPayoutMethod = Boolean(
-    rawStats.hasPayoutMethod || userData?.payoutMethod?.number
+    rawStats.hasPayoutMethod ||
+    rawStats.payoutMethod?.number ||
+    userData?.payoutMethod?.number
   );
 
   const payoutMethod = rawStats.payoutMethod || userData?.payoutMethod || null;
@@ -81,6 +83,7 @@ const TeacherEarnings = () => {
   });
 
   const payouts = rawStats.payoutHistory || rawStats.payouts || [];
+  const hasPendingPayout = payouts.some((p) => p.status === 'Pending');
 
   const totalGross = rawStats.totalGrossSales !== undefined
     ? Number(rawStats.totalGrossSales)
@@ -201,6 +204,9 @@ const TeacherEarnings = () => {
     );
   }
 
+  console.log('rawStats:', rawStats);
+console.log('userData:', userData);
+
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6 font-sans">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -226,6 +232,15 @@ const TeacherEarnings = () => {
           </button>
         </div>
       </div>
+
+      {rawStats.pendingNetBalance > 0 && (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs text-amber-800 flex items-start gap-2">
+          <Clock className="w-4 h-4 shrink-0 mt-0.5" />
+          <span>
+            <strong>৳{rawStats.pendingNetBalance.toFixed(2)}</strong> from recent sales is still processing and will become available for withdrawal after the {rawStats.refundWindowMinutes}-minute refund eligibility window closes.
+          </span>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-xs relative">
@@ -325,13 +340,20 @@ const TeacherEarnings = () => {
                   {hasPayoutMethod ? 'Update bKash Number' : 'Add bKash Number'}
                 </button>
                 {hasPayoutMethod && (
-                  <button
-                    onClick={() => setIsModalOpen(true)}
-                    disabled={availableNetBalance <= 0}
-                    className="px-5 py-2.5 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 transition disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer text-sm"
-                  >
-                    Request Payout
-                  </button>
+                  hasPendingPayout ? (
+                    <span className="px-5 py-2.5 bg-amber-50 text-amber-700 border border-amber-200 font-medium rounded-lg text-sm flex items-center gap-2">
+                      <Clock className="w-4 h-4" />
+                      Payout Pending Approval
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => setIsModalOpen(true)}
+                      disabled={availableNetBalance <= 0 || isFetching}
+                      className="px-5 py-2.5 bg-emerald-600 text-white font-medium rounded-lg hover:bg-emerald-700 transition disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer text-sm"
+                    >
+                      Request Payout
+                    </button>
+                  )
                 )}
               </>
             )}

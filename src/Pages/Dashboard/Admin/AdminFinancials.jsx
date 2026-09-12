@@ -286,9 +286,16 @@ const AdminFinancials = () => {
                             <FiCheckCircle className="shrink-0" /> Paid
                           </span>
                         ) : statusLower === 'refunded' ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold capitalize bg-rose-50 text-rose-700 border border-rose-200">
-                            <FiCornerUpLeft className="shrink-0" /> Refunded
-                          </span>
+                          <div className="space-y-1">
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold capitalize bg-rose-50 text-rose-700 border border-rose-200">
+                              <FiCornerUpLeft className="shrink-0" /> Refunded
+                            </span>
+                            {item.sslcommerzRefundSucceeded === false && (
+                              <span className="flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 rounded-full px-2 py-0.5 w-fit">
+                                <FiClock className="shrink-0" /> Manual action needed
+                              </span>
+                            )}
+                          </div>
                         ) : (
                           <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold capitalize bg-amber-50 text-amber-700 border border-amber-200">
                             <FiClock className="shrink-0" /> {item.status || 'Pending'}
